@@ -147,8 +147,8 @@ function _config_keystone_apache_wsgi {
     fi
 
     # copy proxy vhost and wsgi file
-    sudo cp $KEYSTONE_DIR/httpd/keystone-uwsgi-public.ini $KEYSTONE_WSGI_DIR/main
-    sudo cp $KEYSTONE_DIR/httpd/keystone-uwsgi-admin.ini $KEYSTONE_WSGI_DIR/admin
+    sudo cp $KEYSTONE_DIR/httpd/keystone.py $KEYSTONE_WSGI_DIR/main
+    sudo cp $KEYSTONE_DIR/httpd/keystone.py $KEYSTONE_WSGI_DIR/admin
 
     sudo cp $FILES/apache-keystone.template $keystone_apache_conf
     sudo sed -e "
