@@ -147,8 +147,8 @@ function _config_keystone_apache_wsgi {
     fi
 
     # copy proxy vhost and wsgi file
-    sudo cp $KEYSTONE_DIR/httpd/keystone.py $KEYSTONE_WSGI_DIR/main
-    sudo cp $KEYSTONE_DIR/httpd/keystone.py $KEYSTONE_WSGI_DIR/admin
+    sudo cp $KEYSTONE_DIR/httpd/keystone-uwsgi-public.ini $KEYSTONE_WSGI_DIR/main
+    sudo cp $KEYSTONE_DIR/httpd/keystone-uwsgi-admin.ini $KEYSTONE_WSGI_DIR/admin
 
     sudo cp $FILES/apache-keystone.template $keystone_apache_conf
     sudo sed -e "
@@ -174,7 +174,7 @@ function configure_keystone {
     if [[ "$KEYSTONE_CONF_DIR" != "$KEYSTONE_DIR/etc" ]]; then
         cp -p $KEYSTONE_DIR/etc/keystone.conf.sample $KEYSTONE_CONF
         chmod 600 $KEYSTONE_CONF
-        cp -p $KEYSTONE_DIR/etc/policy.json $KEYSTONE_CONF_DIR
+        cp -p $KEYSTONE_DIR/etc/policy.v3cloudsample.json $KEYSTONE_CONF_DIR
         if [[ -f "$KEYSTONE_DIR/etc/keystone-paste.ini" ]]; then
             cp -p "$KEYSTONE_DIR/etc/keystone-paste.ini" "$KEYSTONE_PASTE_INI"
         fi
@@ -451,7 +451,7 @@ function init_keystone {
     recreate_database keystone
 
     # Initialize keystone database
-    $KEYSTONE_DIR/bin/keystone-manage db_sync
+    keystone-manage db_sync
 
     local extension_value
     for extension_value in ${KEYSTONE_EXTENSIONS//,/ }; do
@@ -464,7 +464,7 @@ function init_keystone {
     if [[ "$KEYSTONE_TOKEN_FORMAT" != "uuid" ]]; then
         # Set up certificates
         rm -rf $KEYSTONE_CONF_DIR/ssl
-        $KEYSTONE_DIR/bin/keystone-manage pki_setup
+        keystone-manage pki_setup
 
         # Create cache dir
         sudo mkdir -p $KEYSTONE_AUTH_CACHE_DIR

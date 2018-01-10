@@ -188,7 +188,7 @@ IRONIC_BRANCH=${IRONIC_BRANCH:-master}
 
 # unified auth system (manages accounts/tokens)
 KEYSTONE_REPO=${KEYSTONE_REPO:-${GIT_BASE}/openstack/keystone.git}
-KEYSTONE_BRANCH=${KEYSTONE_BRANCH:-master}
+KEYSTONE_BRANCH=${KEYSTONE_BRANCH:-kilo-eol}
 
 # neutron service
 NEUTRON_REPO=${NEUTRON_REPO:-${GIT_BASE}/openstack/neutron.git}
